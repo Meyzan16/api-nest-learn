@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model tbl_address {
+  Id          Int          @id(map: "PK_tbl_address") @default(autoincrement())
+  street      String?      @db.Text
+  city        String?      @db.NVarChar(Max)
+  province    String?      @db.NVarChar(Max)
+  country     String?      @db.NVarChar(Max)
+  postal_code String?      @db.NVarChar(Max)
+  contact_id  Int?
+  created_at  DateTime?    @db.DateTime
+  updated_at  DateTime?    @db.DateTime
+  tbl_contact tbl_contact? @relation(fields: [contact_id], references: [Id], onDelete: NoAction, onUpdate: NoAction, map: "FK_tbl_address_tbl_contact")
+}
+
+model tbl_contact {
+  Id          Int           @id(map: "PK_tbl_contact") @default(autoincrement())
+  first_name  String?       @db.NVarChar(Max)
+  last_name   String?       @db.NVarChar(Max)
+  email       String?       @db.NVarChar(Max)
+  phone       String?       @db.NVarChar(Max)
+  username_id Int?
+  created_at  DateTime?     @db.DateTime
+  updated_at  DateTime?     @db.DateTime
+  tbl_address tbl_address[]
+  tbl_user    tbl_user?     @relation(fields: [username_id], references: [username], onDelete: NoAction, onUpdate: NoAction, map: "FK_tbl_contact_tbl_user")
+}
+
+model tbl_user {
+  username    Int           @id(map: "PK_tbl_user_1")
+  password    String?       @db.NVarChar(Max)
+  name        String?       @db.NVarChar(Max)
+  token       String?       @db.NVarChar(Max)
+  uuid        String?       @db.NVarChar(Max)
+  created_at  DateTime?     @db.DateTime
+  updated_at  DateTime?     @db.DateTime
+  is_deleted  Boolean?
+  tbl_contact tbl_contact[]
+}
