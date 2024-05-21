@@ -1,4 +1,4 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, Global, Injectable, PipeTransform } from '@nestjs/common';
 import { ZodType } from 'zod';
 
 @Injectable()

@@ -15,7 +15,6 @@ export class UserService {
   ) {}
   async register(request: RegisterUserRequest): Promise<WebResponse<UserResponse>> {
       this.logger.info(`Register new info ${JSON.stringify(request)}`);
-
       const totalUserWithSameUsername = await this.prismaService.tbl_user.count(
         {
           where: {

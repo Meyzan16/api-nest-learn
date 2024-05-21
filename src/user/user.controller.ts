@@ -10,9 +10,9 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post()
-  @Header('Content-Type', 'application/json')
   @UsePipes(new ValidationPipe(UserValidation)) 
   @HttpCode(200)
+  @Header('Content-Type', 'application/json')
   async register(
     @Body() request: RegisterUserRequest,
     ): Promise<WebResponse<UserResponse>> {
